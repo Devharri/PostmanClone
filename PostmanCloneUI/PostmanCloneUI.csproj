@@ -4,6 +4,10 @@
     <ProjectReference Include="..\PostmanCloneLibrary\PostmanCloneLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot/assets/" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
