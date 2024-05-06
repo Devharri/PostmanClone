@@ -5,6 +5,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Components/Pages/API/" />
     <Folder Include="wwwroot/assets/" />
   </ItemGroup>
 
