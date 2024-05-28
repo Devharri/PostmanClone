@@ -1,9 +1,10 @@
 ﻿@inherits LayoutComponentBase
-
+@inject IStatusModel Status
+<CascadingValue Value="this">
 <div class="page">
     <div class="sidebar">
         <NavMenu />
-        <div class="status-bar">STATUS</div>
+        <div class="status-bar">@StatusString</div>
     </div>
 
     <main>
@@ -22,3 +23,20 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+</CascadingValue>
+@code {
+
+    string? StatusString;
+
+    public void StatusStringUpdate()
+    {
+        if(StatusString != Status.StatusString)
+        {
+            StatusString = Status.StatusString;
+            StateHasChanged();
+        }
+        
+    }
+
+
+}
