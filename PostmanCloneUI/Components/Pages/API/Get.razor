@@ -1,7 +1,7 @@
 ﻿@page "/api/get"
 @using System.ComponentModel.DataAnnotations
-@using PostmanCloneUI.Components.Layout
 @inject IStatusModel Status
+@rendermode InteractiveServer
 
 <PageTitle>Postman Clone by Harri Honkanen - GET Method</PageTitle>
 
@@ -23,20 +23,33 @@
     <button class="btn btn-primary" type="submit">Submit</button>
 </EditForm>
 
+<div class="status-bar">@Status.StatusString</div>
+
 @code {
 
     [SupplyParameterFromForm]
     public GetFormModel? Model { get; set; }
 
-    private void Submit()
+    public async Task Submit()
     {
         UpdateStatusString("Starting...");
-        
 
-        if (Model is not null)
+        //Validate the API URL
+
+        try
         {
-            Model.Message = "Message";
+            UpdateStatusString("Calling API...");
+
+            await Task.Delay(2000);
+
+            UpdateStatusString("Ready");
         }
+        catch (Exception ex)
+        {
+            Model!.Message = "Error: " + ex.Message;
+            UpdateStatusString("Error");
+        }
+
     }
 
     protected override void OnInitialized()
@@ -53,12 +66,8 @@
         public string? Message { get; set; }
     }
 
-    [CascadingParameter]
-    public MainLayout Layout { get; set; }
-
     private void UpdateStatusString(string statusString)
     {
         Status.StatusString = statusString;
-        Layout.StatusStringUpdate();
     }
 }

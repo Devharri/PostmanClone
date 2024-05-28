@@ -12,11 +12,6 @@ main {
     background-color: #393E46;
 }
 
-.status-bar {
-    background-color: #00ADB5;
-    color: #222831;
-}
-
 .top-row {
     background-color: #222831;
     border-bottom: 1px solid #d6d5d5;
@@ -64,16 +59,6 @@ main {
         height: 100vh;
         position: sticky;
         top: 0;
-    }
-
-    .status-bar {
-        position: absolute;
-        bottom: 0px;
-        left: 0;
-        width: 100%;
-        padding-top: 5px;
-        padding-bottom: 5px;
-        padding-left: 5px;
     }
 
     .top-row {
