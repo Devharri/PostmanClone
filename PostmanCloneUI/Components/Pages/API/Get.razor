@@ -1,5 +1,6 @@
 ﻿@page "/api/get"
 @using System.ComponentModel.DataAnnotations
+@using PostmanCloneLibrary
 @inject IStatusModel Status
 @rendermode InteractiveServer
 
@@ -29,18 +30,26 @@
 
     [SupplyParameterFromForm]
     public GetFormModel? Model { get; set; }
+    
+    private readonly ApiAccess api = new();
 
-    public async Task Submit()
+    private async Task Submit()
     {
         UpdateStatusString("Starting...");
+        Model.Message = "";
 
         //Validate the API URL
+        if(api.IsValidUrl(Model.Url) == false)
+        {
+            UpdateStatusString("Invalid URL");
+            return;
+        }
 
         try
         {
             UpdateStatusString("Calling API...");
 
-            await Task.Delay(2000);
+            Model!.Message = await api.CallApiAsync(Model.Url);
 
             UpdateStatusString("Ready");
         }
@@ -60,8 +69,6 @@
     public class GetFormModel
     {
         [Required]
-        [MinLength(10, ErrorMessage = "Url is too short.")]
-        [MaxLength(200, ErrorMessage = "Url is too long.")]
         public string? Url { get; set; }
         public string? Message { get; set; }
     }
