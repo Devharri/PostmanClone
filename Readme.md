@@ -11,5 +11,8 @@ This app provides a user-friendly interface for making GET requests to to APIs a
 * HttpClient
 
 ## Using The App
-1. 
+1. Clone the repository
+2. Run from commandline "dotnet publish --os linux --arch x64 -p:PublishProfile=DefaultContainer -c Release"
+![Postman clone app dotnet publish](Images/screenshot0.png "Dotnet publish")
+3.
 ![Postman clone app ready to run](Images/screenshot1.png "Ready to run")
