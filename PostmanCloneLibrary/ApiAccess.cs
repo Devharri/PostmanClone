@@ -2,7 +2,7 @@
 
 namespace PostmanCloneLibrary;
 
-public class ApiAccess
+public class ApiAccess : IApiAccess
 {
     private readonly HttpClient client = new();
 
