@@ -31,7 +31,7 @@
     [SupplyParameterFromForm]
     public GetFormModel? Model { get; set; }
     
-    private readonly ApiAccess api = new();
+    private readonly IApiAccess api = new ApiAccess();
 
     private async Task Submit()
     {
