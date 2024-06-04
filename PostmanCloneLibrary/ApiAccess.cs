@@ -33,7 +33,7 @@ public class ApiAccess : IApiAccess
             return false;
         }
 
-        bool output = Uri.TryCreate(url, UriKind.Absolute, out Uri uriOutput) && (uriOutput.Scheme == Uri.UriSchemeHttps);
+        bool output = Uri.TryCreate(url, UriKind.Absolute, out Uri? uriOutput) && (uriOutput.Scheme == Uri.UriSchemeHttps);
 
         return output;
     }
