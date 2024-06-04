@@ -1,0 +1,85 @@
+﻿@page "/api/post"
+@using System.ComponentModel.DataAnnotations
+@using PostmanCloneLibrary
+@inject IStatusModel Status
+@rendermode InteractiveServer
+
+<PageTitle>Postman Clone by Harri Honkanen - POST Method</PageTitle>
+
+<h2 class="mb-0">POST Method</h2>
+<h6 style="color: gray">Submits Data to API</h6>
+
+<EditForm Model="Model" OnValidSubmit="Submit" FormName="Post">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="mb-3">
+        <label class="form-label">Url: </label>
+        <InputText @bind-Value="Model!.Url" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Body: </label>
+        <InputTextArea @bind-Value="Model!.Body" class="form-control" rows="5" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Response: </label>
+        <InputTextArea @bind-Value="Model!.Response" class="form-control" rows="10" />
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+</EditForm>
+
+<div class="status-bar">@Status.StatusString</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public PostFormModel? Model { get; set; }
+
+    private readonly IApiAccess api = new ApiAccess();
+
+    private async Task Submit()
+    {
+        UpdateStatusString("Starting...");
+        Model.Response = "";
+
+        //Validate the API URL
+        if (api.IsValidUrl(Model.Url) == false)
+        {
+            UpdateStatusString("Invalid URL");
+            return;
+        }
+
+        try
+        {
+            UpdateStatusString("Calling API...");
+
+            Model!.Response = await api.CallApiAsync(Model.Url);
+
+            UpdateStatusString("Ready");
+        }
+        catch (Exception ex)
+        {
+            Model!.Response = "Error: " + ex.Message;
+            UpdateStatusString("Error");
+        }
+
+    }
+
+    protected override void OnInitialized()
+    {
+        Model ??= new();
+        UpdateStatusString("Ready");
+    }
+    public class PostFormModel
+    {
+        [Required]
+        public string? Url { get; set; }
+        [Required]
+        public string? Body { get; set; }
+        public string? Response { get; set; }
+    }
+
+    private void UpdateStatusString(string statusString)
+    {
+        Status.StatusString = statusString;
+    }
+}
